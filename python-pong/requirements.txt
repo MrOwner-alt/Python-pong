@@ -1,0 +1,4 @@
+pygame==2.5.2
+numpy==1.26.4  # For better math operations
+pytest==8.0.2  # For testing
+python-dotenv==1.0.1  # For environment variables
