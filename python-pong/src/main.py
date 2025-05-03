@@ -10,6 +10,11 @@ from utils.constants import (
     WINDOW_WIDTH, WINDOW_HEIGHT, BLACK, WHITE, BLUE, RED, GRAY, PADDLE_WIDTH
 )
 
+# Constants for font sizes
+FONT_LARGE = 100
+FONT_MEDIUM = 74
+FONT_SMALL = 36
+
 def draw_text(screen, text, size, x, y, color):
     """Draw text on the screen at a specified position."""
     font = pygame.font.Font(None, size)
@@ -18,10 +23,15 @@ def draw_text(screen, text, size, x, y, color):
     text_rect.center = (x, y)
     screen.blit(text_surface, text_rect)
 
+def draw_center_line(screen):
+    """Draw the center line with rounded dots."""
+    for y in range(0, WINDOW_HEIGHT, 30):
+        pygame.draw.circle(screen, GRAY, (WINDOW_WIDTH // 2, y), 5)
+
 def draw_countdown(screen, number):
     """Draw a countdown with a pulsing effect."""
     screen.fill(BLACK)
-    size = 74 + int(abs(math.sin(time.time() * 5)) * 30)
+    size = FONT_MEDIUM + int(abs(math.sin(time.time() * 5)) * 30)
     draw_text(screen, number, size, WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, WHITE)
     pygame.display.flip()
 
@@ -123,22 +133,21 @@ def main():
         # Drawing
         screen.fill(BLACK)
 
-        # Draw center line with rounded dots
-        for y in range(0, WINDOW_HEIGHT, 30):
-            pygame.draw.circle(screen, GRAY, (WINDOW_WIDTH // 2, y), 5)
+        # Draw center line
+        draw_center_line(screen)
 
         # Draw paddles, ball, and score
         left_paddle.draw(screen)
         right_paddle.draw(screen)
         ball.draw(screen)
-        draw_text(screen, f"{score_left}", 74, WINDOW_WIDTH // 4, 50, BLUE)
-        draw_text(screen, f"{score_right}", 74, 3 * WINDOW_WIDTH // 4, 50, RED)
+        draw_text(screen, f"{score_left}", FONT_MEDIUM, WINDOW_WIDTH // 4, 50, BLUE)
+        draw_text(screen, f"{score_right}", FONT_MEDIUM, 3 * WINDOW_WIDTH // 4, 50, RED)
 
         # Draw pause text
         if paused:
-            draw_text(screen, "PAUSED", 100, WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 2, (50, 50, 50))
-            draw_text(screen, "PAUSED", 100, WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, WHITE)
-            draw_text(screen, "Press ESC to resume", 36, WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50, GRAY)
+            draw_text(screen, "PAUSED", FONT_LARGE, WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 2, (50, 50, 50))
+            draw_text(screen, "PAUSED", FONT_LARGE, WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, WHITE)
+            draw_text(screen, "Press ESC to resume", FONT_SMALL, WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50, GRAY)
 
         pygame.display.flip()
         clock.tick(60)
